@@ -1,15 +1,17 @@
-STM32 giao tiếp 1 nút nhấn, một LED và giao tiếp máy tính qua UART
+### STM32 Communication with a Button, an LED, and a Computer via UART
 
-Nếu nút nhấn được nhấn, thì LED được đảo trạng thái. (nếu led đang tắt, nhấn nút làm led sáng và ngược lại). Khi nhả nút LED giữ nguyên trạng thái
+If the button is pressed, the LED toggles its state (if the LED is off, pressing the button turns it on, and vice versa). When the button is released, the LED maintains its current state.
 
-UART gửi các command sau:
+UART sends the following commands:
 
-ON\CR\LF làm LED sáng
+- `ON\CR\LF` turns the LED on
+- `OFF\CR\LF` turns the LED off
+- `TOGGLE\CR\LF` toggles the LED's state
 
-OFF\CR\LF làm LED tắt
+The system uses three tasks:
 
-TOGGLE\CR\LF làm LED đảo trạng thái
+1. A task to control the LED.
+2. A task to handle the button interactions.
+3. A task to manage UART communication.
 
-Sử dụng 1 task LED điều khiển LED, 1 task SW giao tiếp nút nhấn, 1 task UART giao tiếp UART. Có thể sử dụng ngắt UART để truyền dữ liệu cho task UART.
-
-3 task thông tin với nhau qua queue
+The tasks communicate with each other through a queue, and UART interrupts can be used to send data to the UART task.
